@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--<bean id="user" class="com.hnguigu.spring.entity.User">
+        <property name="id" value="1000"/>
+        <property name="name" value="zhangsan"/>
+    </bean>-->
+
+    <!--
+        factory-method:工厂方法方式创建Bean
+        意味着在这个User这个类中必须提供public static User createUser() {}
+    -->
+    <bean id="user" class="com.hnguigu.spring.entity.User" factory-method="createUser"/>
+
+    <bean id="department" factory-bean="departmentFactory" factory-method="createDepartment"/>
+
+    <bean id="departmentFactory" class="com.hnguigu.spring.factory.DepartmentFactory"/>
+
+</beans>

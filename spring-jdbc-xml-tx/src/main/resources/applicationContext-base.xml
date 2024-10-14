@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!--
+        通过PropertySourcesPlaceholderConfigurer的一个Bean，进行解析类路径下的jdbc.properties文件
+        根据propertyName取出propertyValue后注入到${jdbc.driverClassName}
+    -->
+    <context:property-placeholder location="classpath:jdbc.properties"/>
+
+    <!--<bean id="placeholderConfigurer" class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+        <property name="location" value="classpath*:jdbc.properties"/>
+    </bean>-->
+
+    <!--数据源-->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+
+        <!--硬编码-->
+        <property name="driverClassName" value="${jdbc.driverClassName}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <property name="maxActive" value="${jdbc.maxActive}"/>
+        <property name="minIdle" value="${jdbc.minIdle}"/>
+        <property name="maxIdle" value="${jdbc.maxIdle}"/>
+        <property name="initialSize" value="${jdbc.initialSize}"/>
+    </bean>
+
+    <!--
+        事务管理器
+        管理事务，使得事务变成声明式事务
+    -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!--使用Spring AOP配置声明式事务-->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <!--事务传播特性 7个值 通常用得最多的就是REQUIRED-->
+            <tx:method name="add*" propagation="REQUIRED"/>
+            <tx:method name="delete*" propagation="REQUIRED"/>
+            <tx:method name="modify*" propagation="REQUIRED"/>
+
+            <!--其他方法 事务传播是可以没有-->
+            <tx:method name="*" propagation="NOT_SUPPORTED"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <aop:config>
+        <aop:pointcut id="AllMethod" expression="execution(* com.hnguigu.spring.service.*.*(..))"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="AllMethod"/>
+    </aop:config>
+
+
+</beans>

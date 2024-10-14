@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="employee" class="com.hnguigu.spring.entity.Employee">
+        <property name="id" value="1000"/>
+        <property name="name" value="zhangsan"/>
+
+        <!--
+            能不能将String转换成Date类型
+            Spring框架内部针对Date类型做了一款转换器，这个转换器只能对yyyy/MM/dd格式进行转换
+        -->
+        <property name="birthday" value="1234_12_12"/>
+        <!--        <property name="birthday" value="1234/12/12"/>-->
+    </bean>
+
+    <!--注册转换器，必须让spring框架知道你做了转换器-->
+    <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+        <property name="converters">
+            <set>
+                <ref bean="myDateConverter"/>
+            </set>
+        </property>
+    </bean>
+
+    <bean id="myDateConverter" class="com.hnguigu.spring.converter.MyDateConverter">
+        <property name="patterns">
+            <array>
+                <value>yyyy-MM-dd</value>
+                <value>yyyy/MM/dd</value>
+                <value>yyyy_MM_dd</value>
+            </array>
+        </property>
+    </bean>
+
+
+    <!--<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+        <property name="converters">
+            <set>
+                <bean id="myDateConverter" class="com.hnguigu.spring.converter.MyDateConverter">
+                    <property name="patterns">
+                        <array>
+                            <value>yyyy-MM-dd</value>
+                            <value>yyyy/MM/dd</value>
+                            <value>yyyy_MM_dd</value>
+                        </array>
+                    </property>
+                </bean>
+            </set>
+        </property>
+    </bean>-->
+
+
+</beans>
+
+

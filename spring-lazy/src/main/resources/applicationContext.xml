@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--
+        lazy-init="true" 意味着该Bean的创建延迟，当调用getBean()方法时才会创建
+    -->
+    <bean id="user" class="com.hnguigu.spring.entity.User" lazy-init="true">
+        <property name="id" value="1"/>
+        <property name="name" value="zhangsan"/>
+    </bean>
+
+    <bean id="department" class="com.hnguigu.spring.entity.Department" scope="prototype">
+        <property name="id" value="1000"/>
+        <property name="name" value="皇家马德里"/>
+    </bean>
+
+    <bean id="role" class="com.hnguigu.spring.entity.Role" lazy-init="false" scope="prototype">
+        <property name="id" value="1"/>
+        <property name="name" value="系统管理员"/>
+    </bean>
+
+</beans>

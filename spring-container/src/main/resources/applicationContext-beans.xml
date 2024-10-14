@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="user" class="com.hnguigu.spring.entity.User">
+        <property name="id" value="1000"/>
+        <property name="name" value="zhangsan"/>
+        <property name="department" ref="department"/>
+    </bean>
+
+    <bean id="department" class="com.hnguigu.spring.entity.Department">
+        <property name="id" value="1"/>
+        <property name="name" value="IBM"/>
+    </bean>
+
+    <!--
+        将其他的配置文件导入到Spring容器
+        言下之意：将该配置文件中的Bean以及导入的文件中的Bean一并导入到Spring IoC容器中
+    -->
+    <import resource="applicationContext-ioc.xml"/>
+
+</beans>

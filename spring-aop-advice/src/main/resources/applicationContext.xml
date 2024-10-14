@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="userDao" class="com.hnguigu.spring.dao.impl.UserDaoImpl"/>
+
+    <bean id="userService" class="com.hnguigu.spring.service.impl.UserServiceImpl">
+        <property name="userDao" ref="userDao"/>
+    </bean>
+
+    <bean id="authenticateAdvice" class="com.hnguigu.spring.advice.AuthenticateAdvice"/>
+    <bean id="logAdvice" class="com.hnguigu.spring.advice.LogAdvice"/>
+    <bean id="exceptionAdvice" class="com.hnguigu.spring.advice.ExceptionAdvice"/>
+    <bean id="transactionAdvice" class="com.hnguigu.spring.advice.TransactionAdvice"/>
+
+    <bean id="proxyFactoryBean" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="target" ref="userService"/>
+
+        <property name="interfaces">
+            <array>
+                <value>com.hnguigu.spring.service.UserService</value>
+            </array>
+        </property>
+
+        <property name="interceptorNames">
+            <array>
+                <value>authenticateAdvice</value>
+                <value>logAdvice</value>
+                <value>exceptionAdvice</value>
+                <value>transactionAdvice</value>
+            </array>
+        </property>
+    </bean>
+
+</beans>

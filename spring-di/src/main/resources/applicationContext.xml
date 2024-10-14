@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="user" class="com.hnguigu.spring.entity.User">
+        <property name="id" value="1"/>
+        <property name="name" value="zhangsan"/>
+        <property name="department" ref="department"/>
+
+        <!--
+            内部Bean
+            嵌入Bean
+            注意：尽量不要写
+        -->
+        <!--<property name="department">
+            <bean class="com.hnguigu.spring.entity.Department">
+                <property name="id" value="1001"/>
+                <property name="name" value="SUN"/>
+            </bean>
+        </property>-->
+
+        <!--<property name="department">
+            <ref bean="department"/>
+        </property>-->
+    </bean>
+
+    <bean id="department" class="com.hnguigu.spring.entity.Department">
+        <property name="id" value="1000"/>
+        <property name="name" value="IBM"/>
+    </bean>
+
+    <bean id="role" class="com.hnguigu.spring.entity.Role">
+        <constructor-arg name="id" value="1000"/>
+        <constructor-arg name="name" value="admin"/>
+    </bean>
+
+    <!--
+        id:beanName
+        name:别名
+    -->
+    <bean id="collectionDemo" name="collection abc,zzz" class="com.hnguigu.spring.entity.CollectionDemo">
+        <property name="arrayValues">
+            <array>
+                <value>zhangsan</value>
+                <value>lisi</value>
+                <value>wangwu</value>
+            </array>
+        </property>
+
+        <property name="listValues">
+            <list>
+                <value>abc</value>
+                <value>aaa</value>
+                <value>bbb</value>
+            </list>
+        </property>
+
+        <property name="setValues">
+            <set>
+                <value>helloworld</value>
+                <value>java</value>
+                <value>python</value>
+            </set>
+        </property>
+
+        <property name="mapValues">
+            <map>
+                <entry key="key1" value="abc"/>
+                <entry key="key2" value="ttt"/>
+                <entry key="key3" value="lll"/>
+            </map>
+        </property>
+
+        <property name="properties">
+            <props>
+                <prop key="username">zhangsan</prop>
+                <prop key="password">admin</prop>
+                <prop key="url">jdbc:mysql:///xxx</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="abstractBean" abstract="true">
+        <property name="id" value="1"/>
+        <property name="name" value="zhangsan"/>
+    </bean>
+
+    <bean id="demo1" class="com.hnguigu.spring.entity.Demo1" parent="abstractBean">
+        <property name="age" value="23"/>
+    </bean>
+
+    <bean id="demo2" class="com.hnguigu.spring.entity.Demo2" parent="abstractBean">
+        <property name="salary" value="23.23"/>
+    </bean>
+
+    <bean id="demo3" class="com.hnguigu.spring.entity.Demo3" parent="abstractBean">
+        <property name="gender" value="Male"/>
+    </bean>
+
+    <import resource="applicationContext-conversion.xml"/>
+
+</beans>
+
+

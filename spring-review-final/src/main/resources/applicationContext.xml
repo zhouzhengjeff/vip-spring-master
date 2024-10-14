@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="aDemo" class="com.hnguigu.spring.ADemo">
+        <!--setter注入-->
+        <!--property name="bDemo" ref="bDemo"/>-->
+
+        <!--构造注入-->
+        <constructor-arg name="bDemo" ref="bDemo"/>
+    </bean>
+
+    <bean id="bDemo" class="com.hnguigu.spring.BDemo"/>
+
+    <bean id="user" class="com.hnguigu.spring.User" lazy-init="true">
+        <property name="birthday" value="2020-01-01"/>
+    </bean>
+
+
+    <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+        <property name="converters">
+            <set>
+                <bean class="com.hnguigu.spring.converter.MyUtilDateConverter">
+                    <property name="pattern" value="yyyy-MM-dd"/>
+                </bean>
+            </set>
+        </property>
+    </bean>
+
+</beans>
